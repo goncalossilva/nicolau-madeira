@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilha da Madeira - Pérola do Atlântico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 2px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 100px;
+            background:
+                radial-gradient(ellipse at top, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 215, 0, 0.03) 10px,
+                rgba(255, 215, 0, 0.03) 20px
+            );
+            animation: moveStripes 20s linear infinite;
+        }
+
+        @keyframes moveStripes {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0%, 0%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 span {
+            color: #FFD700;
+            display: block;
+            font-size: 5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero .subtitle em {
+            color: #FFD700;
+            font-style: normal;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Flag decoration */
+        .flag-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 2rem 0;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .flag-stripe {
+            width: 80px;
+            height: 15px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .flag-stripe:hover {
+            transform: scaleY(1.5);
+        }
+
+        .flag-stripe.blue { background: #003399; border: 2px solid #FFD700; }
+        .flag-stripe.gold { background: #FFD700; }
+        .flag-stripe.red { background: #C8102E; }
+        .flag-stripe.white { background: #fff; }
+
+        /* Cards Section */
+        .intro-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #001a4d 0%, #003399 100%);
+        }
+
+        .intro-text {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card h3 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-link:hover {
+            background: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Highlights */
+        .highlights {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #003399 0%, #002266 100%);
+        }
+
+        .highlights h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #FFD700;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .highlight-item {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-item:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .highlight-item .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .highlight-item .label {
+            color: #fff;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        footer .flag-decoration {
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h1 span {
+                font-size: 3rem;
+            }
+
+            nav ul {
+                gap: 0.3rem;
+            }
+
+            nav ul li a {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo à<span>Ilha da Madeira</span></h1>
+            <p class="subtitle"><em>Pérola do Atlântico</em> • <em>Jardim do Atlântico</em></p>
+
+            <div class="flag-decoration">
+                <div class="flag-stripe blue"></div>
+                <div class="flag-stripe gold"></div>
+                <div class="flag-stripe red"></div>
+                <div class="flag-stripe white"></div>
+                <div class="flag-stripe red"></div>
+                <div class="flag-stripe gold"></div>
+                <div class="flag-stripe blue"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="intro-section">
+        <p class="intro-text">
+            A Ilha da Madeira, parte do <strong>Arquipélago da Madeira</strong>, é uma região autónoma de Portugal
+            conhecida pelo seu <em>clima ameno durante todo o ano</em>, paisagens dramáticas e natureza exuberante.
+            Descubra esta ilha mágica através das várias secções deste site!
+        </p>
+
+        <div class="cards-container">
+            <div class="card">
+                <span class="card-icon">🌋</span>
+                <h3>Geografia</h3>
+                <p>Descubra a origem vulcânica, as ilhas do arquipélago e as paisagens únicas da Madeira.</p>
+                <a href="geografia.html" class="card-link">Explorar</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">📜</span>
+                <h3>História e Cultura</h3>
+                <p>Viaje no tempo até 1419 e conheça a história fascinante desta ilha atlântica.</p>
+                <a href="historia.html" class="card-link">Descobrir</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">🍽️</span>
+                <h3>Gastronomia</h3>
+                <p>Delicie-se com os sabores únicos: espetada, bolo do caco, poncha e muito mais!</p>
+                <a href="gastronomia.html" class="card-link">Saborear</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">🦎</span>
+                <h3>Fauna e Natureza</h3>
+                <p>Conheça as espécies endémicas e os recursos naturais preciosos da ilha.</p>
+                <a href="fauna.html" class="card-link">Observar</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">🎭</span>
+                <h3>Tradições e Trajes</h3>
+                <p>Explore as festas, o folclore vibrante e os trajes típicos madeirenses.</p>
+                <a href="tradicoes.html" class="card-link">Celebrar</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">⭐</span>
+                <h3>Celebridades</h3>
+                <p>Conheça as figuras ilustres que nasceram nesta ilha e conquistaram o mundo.</p>
+                <a href="celebridades.html" class="card-link">Conhecer</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlights">
+        <h2>A Madeira em Números</h2>
+        <div class="highlight-grid">
+            <div class="highlight-item">
+                <div class="number">728</div>
+                <div class="label">km² de área</div>
+            </div>
+            <div class="highlight-item">
+                <div class="number">600</div>
+                <div class="label">km de África</div>
+            </div>
+            <div class="highlight-item">
+                <div class="number">1419</div>
+                <div class="label">Ano da descoberta</div>
+            </div>
+            <div class="highlight-item">
+                <div class="number">9</div>
+                <div class="label">km de praia (Porto Santo)</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+        <div class="flag-decoration">
+            <div class="flag-stripe blue"></div>
+            <div class="flag-stripe gold"></div>
+            <div class="flag-stripe red"></div>
+            <div class="flag-stripe white"></div>
+            <div class="flag-stripe red"></div>
+            <div class="flag-stripe gold"></div>
+            <div class="flag-stripe blue"></div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Counter animation for highlights
+            const numbers = document.querySelectorAll('.number');
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.textContent);
+                        let current = 0;
+                        const increment = target / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                entry.target.textContent = target;
+                                clearInterval(timer);
+                            } else {
+                                entry.target.textContent = Math.floor(current);
+                            }
+                        }, 30);
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            numbers.forEach(num => counterObserver.observe(num));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fauna e Recursos Naturais - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at bottom, rgba(0, 150, 100, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: hop 1s ease-in-out infinite;
+        }
+
+        @keyframes hop {
+            0%, 100% { transform: translateY(0) scaleX(1); }
+            50% { transform: translateY(-15px) scaleX(1.1); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.15), transparent);
+            border-left: 5px solid #FFD700;
+            padding: 2rem;
+            border-radius: 0 20px 20px 0;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Fauna Section */
+        .section-title {
+            color: #FFD700;
+            font-size: 2.2rem;
+            text-align: center;
+            margin: 3rem 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .section-title .emoji {
+            font-size: 2.5rem;
+        }
+
+        /* Animal Cards */
+        .fauna-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .animal-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .animal-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .animal-card:hover::after {
+            opacity: 1;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .animal-emoji {
+            font-size: 5rem;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 100, 150, 0.3), rgba(0, 50, 100, 0.3));
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .animal-card:hover .animal-emoji {
+            transform: scale(1.3);
+        }
+
+        .animal-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .animal-card:hover .animal-image {
+            transform: scale(1.1);
+        }
+
+        .animal-info {
+            padding: 1.5rem;
+        }
+
+        .animal-info h3 {
+            color: #FFD700;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .animal-info p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .animal-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .animal-tag.endemic {
+            background: rgba(200, 16, 46, 0.3);
+            color: #fff;
+            border: 1px solid rgba(200, 16, 46, 0.5);
+        }
+
+        .animal-tag.marine {
+            background: rgba(0, 150, 200, 0.3);
+            color: #fff;
+            border: 1px solid rgba(0, 150, 200, 0.5);
+        }
+
+        .animal-tag.rare {
+            background: rgba(255, 215, 0, 0.3);
+            color: #fff;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        /* Resources Section */
+        .resources-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: linear-gradient(145deg, rgba(0, 51, 153, 0.5), rgba(0, 26, 77, 0.5));
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .resource-card:hover {
+            border-color: #FFD700;
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.15);
+        }
+
+        .resource-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .resource-card h3 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .resource-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+        }
+
+        .resource-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .resource-card ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-card ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* Conservation box */
+        .conservation-box {
+            background: linear-gradient(135deg, rgba(0, 150, 100, 0.2), rgba(0, 100, 50, 0.1));
+            border: 3px solid rgba(0, 200, 100, 0.4);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .conservation-box h3 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .conservation-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Fun fact */
+        .fun-fact {
+            background: linear-gradient(135deg, rgba(200, 16, 46, 0.2), rgba(200, 16, 46, 0.05));
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px dashed rgba(200, 16, 46, 0.4);
+        }
+
+        .fun-fact h3 {
+            color: #FFD700;
+            margin-bottom: 0.8rem;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+            .fauna-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html" class="active">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">🦎</span>
+        <h1>Fauna e Recursos Naturais</h1>
+        <p>Um ecossistema frágil e precioso</p>
+    </header>
+
+    <main class="content">
+        <div class="intro-box">
+            A fauna da Madeira destaca-se pelo <strong>elevado endemismo</strong> devido ao isolamento geográfico.
+            É um ecossistema frágil e precioso, protegido por vastas reservas naturais que preservam
+            espécies únicas no mundo.
+        </div>
+
+        <h2 class="section-title"><span class="emoji">🐦</span> Fauna Terrestre</h2>
+
+        <div class="fauna-grid">
+            <div class="animal-card">
+                <img src="imagens/image6.jpeg" alt="Pombo-trocaz" class="animal-image">
+                <div class="animal-info">
+                    <h3>Pombo-trocaz</h3>
+                    <p>
+                        O protagonista da floresta Laurissilva! Esta ave endémica é facilmente reconhecível
+                        pelo seu tamanho e coloração. Alimenta-se dos frutos das árvores da floresta.
+                    </p>
+                    <span class="animal-tag endemic">Endémico</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image7.jpeg" alt="Bis-bis" class="animal-image">
+                <div class="animal-info">
+                    <h3>Bis-bis</h3>
+                    <p>
+                        O minúsculo Bis-bis é uma das aves mais pequenas da Europa! Vive na floresta
+                        Laurissilva e o seu nome deriva do som característico que emite.
+                    </p>
+                    <span class="animal-tag endemic">Endémico</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image8.jpeg" alt="Freira-da-Madeira" class="animal-image">
+                <div class="animal-info">
+                    <h3>Freira-da-Madeira</h3>
+                    <p>
+                        Uma ave raríssima que nidifica nos picos mais altos da ilha. É uma das aves
+                        marinhas mais ameaçadas do mundo e símbolo da conservação madeirense.
+                    </p>
+                    <span class="animal-tag rare">Rara</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image9.jpeg" alt="Lagartixa da Madeira" class="animal-image">
+                <div class="animal-info">
+                    <h3>Lagartixa da Madeira</h3>
+                    <p>
+                        As omnipresentes lagartixas dominam a paisagem rochosa da ilha. São fáceis
+                        de observar em muros, rochas e jardins por toda a Madeira.
+                    </p>
+                    <span class="animal-tag endemic">Endémico</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image10.jpeg" alt="Morcego-da-Madeira" class="animal-image">
+                <div class="animal-info">
+                    <h3>Morcego-da-Madeira</h3>
+                    <p>
+                        Curiosamente, os morcegos são os únicos mamíferos nativos da ilha!
+                        Todos os outros mamíferos terrestres foram introduzidos pelo homem.
+                    </p>
+                    <span class="animal-tag endemic">Nativo</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title"><span class="emoji">🌊</span> Fauna Marinha</h2>
+
+        <div class="fauna-grid">
+            <div class="animal-card">
+                <img src="imagens/image5.jpeg" alt="Lobo-marinho" class="animal-image">
+                <div class="animal-info">
+                    <h3>Lobo-marinho</h3>
+                    <p>
+                        O ícone da conservação na Madeira! A foca-monge do Mediterrâneo habita
+                        as Ilhas Desertas, sendo uma das focas mais raras do mundo.
+                    </p>
+                    <span class="animal-tag rare">Em perigo</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image11.jpeg" alt="Golfinho Comum" class="animal-image">
+                <div class="animal-info">
+                    <h3>Golfinho Comum</h3>
+                    <p>
+                        As águas da Madeira são ricas em golfinhos! É possível observá-los
+                        em passeios de barco, brincando nas ondas perto da costa.
+                    </p>
+                    <span class="animal-tag marine">Marinho</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/image12.jpeg" alt="Baleia Comum" class="animal-image">
+                <div class="animal-info">
+                    <h3>Baleia Comum</h3>
+                    <p>
+                        As águas profundas ao redor da Madeira são corredores migratórios para
+                        várias espécies de baleias. A observação de cetáceos é uma atividade popular.
+                    </p>
+                    <span class="animal-tag marine">Marinho</span>
+                </div>
+            </div>
+
+            <div class="animal-card">
+                <img src="imagens/peixe-espada.jpg" alt="Peixe-Espada Preto" class="animal-image">
+                <div class="animal-info">
+                    <h3>Peixe-Espada Preto</h3>
+                    <p>
+                        Um peixe emblemático das águas profundas da Madeira, pescado de forma
+                        tradicional. Além de ser importante para a gastronomia, é símbolo da pesca local.
+                    </p>
+                    <span class="animal-tag marine">Marinho</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="fun-fact">
+            <h3>Sabias que...</h3>
+            <p>
+                Os únicos mamíferos <strong>nativos</strong> da Madeira são os morcegos! Todos os outros
+                mamíferos terrestres, como coelhos e ratos, foram introduzidos pelo homem ao longo dos séculos.
+            </p>
+        </div>
+
+        <h2 class="section-title"><span class="emoji">🌿</span> Recursos Naturais</h2>
+
+        <section class="resources-section">
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <span class="icon">🌳</span>
+                    <h3>Floresta Laurissilva</h3>
+                    <p>O recurso natural mais valioso da ilha, classificado como Património Mundial pela UNESCO.</p>
+                    <ul>
+                        <li>💧 Retém humidade do nevoeiro</li>
+                        <li>🌊 Alimenta nascentes de água</li>
+                        <li>🦜 Santuário de biodiversidade</li>
+                    </ul>
+                </div>
+
+                <div class="resource-card">
+                    <span class="icon">💧</span>
+                    <h3>Recursos Hídricos</h3>
+                    <p>A Madeira é riquíssima em água doce, captada através do sistema de Levadas.</p>
+                    <ul>
+                        <li>🚰 Água para consumo</li>
+                        <li>🌾 Irrigação agrícola</li>
+                        <li>⚡ Energia hidroelétrica</li>
+                    </ul>
+                </div>
+
+                <div class="resource-card">
+                    <span class="icon">🌊</span>
+                    <h3>O Mar</h3>
+                    <p>A vasta Zona Económica Exclusiva oferece recursos pesqueiros importantes.</p>
+                    <ul>
+                        <li>🐟 Peixe-espada preto e atum</li>
+                        <li>🐋 Observação de cetáceos</li>
+                        <li>🏊 Reservas marinhas (Garajau)</li>
+                    </ul>
+                </div>
+
+                <div class="resource-card">
+                    <span class="icon">🌋</span>
+                    <h3>Solo Vulcânico</h3>
+                    <p>O solo de origem vulcânica é extremamente fértil para a agricultura.</p>
+                    <ul>
+                        <li>🍌 Banana da Madeira</li>
+                        <li>🍇 Uvas para vinho</li>
+                        <li>🥭 Frutos tropicais</li>
+                    </ul>
+                </div>
+
+                <div class="resource-card">
+                    <span class="icon">🏔️</span>
+                    <h3>Paisagem</h3>
+                    <p>O próprio relevo é um recurso natural estratégico para o turismo.</p>
+                    <ul>
+                        <li>🧗 Canyoning e trekking</li>
+                        <li>🏖️ Piscinas naturais vulcânicas</li>
+                        <li>🌄 Falésias e miradouros</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="conservation-box">
+            <h3>🛡️ Conservação e Proteção</h3>
+            <p>
+                A Madeira possui <strong>vastas reservas naturais</strong> que protegem o seu ecossistema frágil e precioso.
+                As Ilhas Desertas e Selvagens são reservas naturais estritas, e a floresta Laurissilva
+                está classificada como <strong>Património Mundial pela UNESCO</strong>.
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate animal cards on scroll
+            const cards = document.querySelectorAll('.animal-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(40px)';
+                card.style.transition = 'all 0.5s ease';
+                observer.observe(card);
+            });
+
+            // Animate resource cards
+            const resourceCards = document.querySelectorAll('.resource-card');
+            const resourceObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'scale(1)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            resourceCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.9)';
+                card.style.transition = 'all 0.5s ease';
+                resourceObserver.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

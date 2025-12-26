@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradições e Trajes - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, rgba(200, 16, 46, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: dance 1s ease-in-out infinite;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: rotate(-10deg) scale(1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Festas Section */
+        .section-title {
+            color: #FFD700;
+            font-size: 2.2rem;
+            text-align: center;
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #C8102E, #FFD700, #C8102E);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Festival Cards */
+        .festivals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .festival-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .festival-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .festival-card:hover::before {
+            left: 100%;
+        }
+
+        .festival-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #FFD700;
+            box-shadow: 0 25px 50px rgba(255, 215, 0, 0.2);
+        }
+
+        .festival-header {
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .festival-header.natal {
+            background: linear-gradient(135deg, rgba(200, 16, 46, 0.4), rgba(0, 100, 0, 0.3));
+        }
+
+        .festival-header.carnaval {
+            background: linear-gradient(135deg, rgba(255, 100, 0, 0.3), rgba(255, 0, 100, 0.3));
+        }
+
+        .festival-header.flor {
+            background: linear-gradient(135deg, rgba(255, 100, 150, 0.3), rgba(100, 200, 100, 0.3));
+        }
+
+        .festival-header.fogo {
+            background: linear-gradient(135deg, rgba(255, 100, 0, 0.4), rgba(255, 200, 0, 0.3));
+        }
+
+        .festival-emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .festival-content {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .festival-content h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .festival-content p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Traditional Costume */
+        .costume-section {
+            background: linear-gradient(145deg, rgba(200, 16, 46, 0.15), rgba(0, 0, 0, 0.2));
+            border-radius: 30px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 3px solid rgba(200, 16, 46, 0.3);
+        }
+
+        .costume-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .costume-visual {
+            text-align: center;
+        }
+
+        .costume-figure {
+            font-size: 8rem;
+            display: block;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .costume-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .costume-image:hover {
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.03);
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .costume-details h3 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .costume-list {
+            list-style: none;
+        }
+
+        .costume-list li {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .costume-list li:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-left-color: #FFD700;
+            transform: translateX(10px);
+        }
+
+        .costume-list li .emoji {
+            font-size: 1.8rem;
+        }
+
+        .costume-list li .text strong {
+            color: #FFD700;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Folklore Section */
+        .folklore-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .folklore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .folklore-item {
+            background: linear-gradient(145deg, rgba(0, 51, 153, 0.5), rgba(0, 26, 77, 0.5));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .folklore-item:hover {
+            border-color: #FFD700;
+            transform: translateY(-10px) rotate(3deg);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+        }
+
+        .folklore-item .icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .folklore-item h4 {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        .folklore-item p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Romarias highlight */
+        .romarias-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .romarias-box h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .romarias-box p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Section images */
+        .section-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            margin: 1.5rem auto;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .section-image:hover {
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-image.small {
+            max-width: 400px;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+            .festivals-grid { grid-template-columns: 1fr; }
+            .costume-grid { grid-template-columns: 1fr; }
+            .costume-figure { font-size: 5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html" class="active">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">🎭</span>
+        <h1>Tradições e Trajes</h1>
+        <p>O folclore vibrante e as festas populares da Madeira</p>
+    </header>
+
+    <main class="content">
+        <h2 class="section-title">Festas e Celebrações</h2>
+
+        <div class="festivals-grid">
+            <div class="festival-card">
+                <div class="festival-header natal">
+                    <span class="festival-emoji">🎄</span>
+                </div>
+                <div class="festival-content">
+                    <h3>Natal e Fim de Ano</h3>
+                    <p>
+                        Uma das tradições mais conhecidas da Madeira! As famosas <strong>"noites do mercado"</strong>
+                        animam o Funchal em dezembro, com música, comes e bebes. O ponto alto é o espetacular
+                        <strong>fogo de artifício</strong> de Fim de Ano que ilumina toda a baía do Funchal,
+                        considerado um dos maiores do mundo!
+                    </p>
+                </div>
+            </div>
+
+            <div class="festival-card">
+                <div class="festival-header carnaval">
+                    <span class="festival-emoji">🎉</span>
+                </div>
+                <div class="festival-content">
+                    <h3>Carnaval</h3>
+                    <p>
+                        O <strong>Carnaval da Madeira</strong> é uma festa muito animada, com desfiles de
+                        carros alegóricos pelas ruas do Funchal, máscaras coloridas, música e muita alegria.
+                        É uma celebração que atrai visitantes de todo o mundo!
+                    </p>
+                </div>
+            </div>
+
+            <div class="festival-card">
+                <div class="festival-header flor">
+                    <span class="festival-emoji">🌸</span>
+                </div>
+                <div class="festival-content">
+                    <h3>Festa da Flor</h3>
+                    <p>
+                        Celebrada na primavera, a <strong>Festa da Flor</strong> transforma o Funchal num
+                        jardim gigante! Há desfiles de carros floridos, tapetes de flores nas ruas, exposições
+                        e o famoso "Muro da Esperança" construído por crianças com flores.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <figure>
+            <img src="imagens/image14.jpeg" alt="Festividades de Natal na Madeira" class="section-image small">
+            <figcaption class="image-caption">Festividades natalícias no Funchal</figcaption>
+        </figure>
+
+        <div class="romarias-box">
+            <h3>⛪ Romarias e Festas Populares</h3>
+            <p>
+                As festas populares, como as <strong>romarias em honra de santos padroeiros</strong>,
+                são muito importantes na Madeira. Cada freguesia celebra o seu santo com <em>procissões,
+                arraiais e muita música</em>. São momentos de encontro comunitário, fé e alegria que
+                mantêm vivas as tradições ancestrais.
+            </p>
+        </div>
+
+        <h2 class="section-title">Trajes Tradicionais</h2>
+
+        <section class="costume-section">
+            <div class="costume-grid">
+                <div class="costume-visual">
+                    <img src="imagens/image15.jpeg" alt="Trajes tradicionais da Madeira" class="costume-image">
+                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.8);">Trajes tradicionais madeirenses</p>
+                </div>
+
+                <div class="costume-details">
+                    <h3>Fato Tradicional Feminino</h3>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+                        Os fatos tradicionais da Madeira são um símbolo distintivo da ilha,
+                        utilizados em festas e celebrações. O traje feminino é especialmente colorido e marcante:
+                    </p>
+
+                    <ul class="costume-list">
+                        <li>
+                            <span class="emoji">👗</span>
+                            <div class="text">
+                                <strong>Saia Vermelha</strong>
+                                Com riscas pretas, é a peça mais distintiva do traje
+                            </div>
+                        </li>
+                        <li>
+                            <span class="emoji">🎀</span>
+                            <div class="text">
+                                <strong>Corpete Preto</strong>
+                                Ajustado ao corpo, com bordados tradicionais
+                            </div>
+                        </li>
+                        <li>
+                            <span class="emoji">🎩</span>
+                            <div class="text">
+                                <strong>Chapéu Pequeno</strong>
+                                Também conhecido como "carapuça", típico da região
+                            </div>
+                        </li>
+                        <li>
+                            <span class="emoji">🧣</span>
+                            <div class="text">
+                                <strong>Xaile</strong>
+                                Colocado sobre os ombros, completa o traje
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Folclore Madeirense</h2>
+
+        <section class="folklore-section">
+            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem;">
+                O folclore madeirense é vibrante, com danças e cantares típicos acompanhados por instrumentos tradicionais.
+            </p>
+
+            <div class="folklore-grid">
+                <div class="folklore-item">
+                    <span class="icon">💃</span>
+                    <h4>Bailinho</h4>
+                    <p>Dança tradicional alegre e animada</p>
+                </div>
+
+                <div class="folklore-item">
+                    <span class="icon">🎸</span>
+                    <h4>Braguinha</h4>
+                    <p>Instrumento de cordas típico, ancestral do ukulele</p>
+                </div>
+
+                <div class="folklore-item">
+                    <span class="icon">🪕</span>
+                    <h4>Rajão</h4>
+                    <p>Outro instrumento tradicional de cordas</p>
+                </div>
+
+                <div class="folklore-item">
+                    <span class="icon">🎵</span>
+                    <h4>Cantares</h4>
+                    <p>Músicas tradicionais passadas de geração em geração</p>
+                </div>
+
+                <div class="folklore-item">
+                    <span class="icon">🧵</span>
+                    <h4>Bordado</h4>
+                    <p>Arte reconhecida mundialmente pela sua delicadeza</p>
+                </div>
+
+                <div class="folklore-item">
+                    <span class="icon">👥</span>
+                    <h4>Grupos Folclóricos</h4>
+                    <p>Mantêm vivas as tradições em espetáculos</p>
+                </div>
+            </div>
+        </section>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate festival cards
+            const festivalCards = document.querySelectorAll('.festival-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            festivalCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Animate folklore items
+            const folkloreItems = document.querySelectorAll('.folklore-item');
+            const folkloreObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) rotate(0deg)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            folkloreItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px) rotate(-5deg)';
+                item.style.transition = 'all 0.5s ease';
+                folkloreObserver.observe(item);
+            });
+
+            // Animate costume list items
+            const costumeItems = document.querySelectorAll('.costume-list li');
+            costumeItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-30px)';
+                item.style.transition = 'all 0.4s ease';
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 500 + index * 150);
+            });
+        });
+    </script>
+</body>
+</html>

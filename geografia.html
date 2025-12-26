@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geografia - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+            animation: slideIn 0.8s ease;
+        }
+
+        .section:hover {
+            border-color: #FFD700;
+            transform: translateX(10px);
+            box-shadow: -10px 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section h2 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section h2 .emoji {
+            font-size: 2rem;
+        }
+
+        .section p {
+            line-height: 1.9;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Archipelago Grid */
+        .archipelago-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .island-card {
+            background: linear-gradient(145deg, rgba(0, 51, 153, 0.5), rgba(0, 26, 77, 0.8));
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .island-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .island-card:hover::after {
+            opacity: 1;
+        }
+
+        .island-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #FFD700;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+        }
+
+        .island-card h3 {
+            color: #FFD700;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .island-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .island-card .island-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border-left: 4px solid #FFD700;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .info-box.red {
+            background: linear-gradient(145deg, rgba(200, 16, 46, 0.15), rgba(200, 16, 46, 0.05));
+            border-left-color: #C8102E;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .stat {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .stat:hover {
+            transform: scale(1.1);
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .stat .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .stat .label {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Map container */
+        .map-container {
+            background: linear-gradient(145deg, rgba(0, 51, 153, 0.3), rgba(0, 26, 77, 0.5));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            margin: 2rem 0;
+        }
+
+        .map-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .map-container p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Section images */
+        .section-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            margin: 1.5rem auto;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .section-image:hover {
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .image-caption {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-image.small {
+            max-width: 400px;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+            .section { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html" class="active">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">🌋</span>
+        <h1>Geografia da Madeira</h1>
+        <p>Origem vulcânica, paisagens dramáticas e biodiversidade única</p>
+    </header>
+
+    <main class="content">
+        <section class="section">
+            <h2><span class="emoji">🗺️</span> Localização</h2>
+            <p>
+                A Madeira situa-se no <strong>Oceano Atlântico</strong>, a cerca de <em>600 km da costa de África</em>
+                e <em>900 km de Portugal continental</em>. O arquipélago é de <strong>origem vulcânica</strong>,
+                o que explica o seu relevo montanhoso e dramático.
+            </p>
+
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="value">728</div>
+                    <div class="label">km² de área</div>
+                </div>
+                <div class="stat">
+                    <div class="value">600</div>
+                    <div class="label">km de África</div>
+                </div>
+                <div class="stat">
+                    <div class="value">900</div>
+                    <div class="label">km de Portugal</div>
+                </div>
+            </div>
+
+            <img src="imagens/image2.jpeg" alt="Vista aérea do Funchal" class="section-image small">
+            <p class="image-caption">Vista aérea do Funchal, capital da Madeira</p>
+        </section>
+
+        <section class="section">
+            <h2><span class="emoji">🏝️</span> O Arquipélago</h2>
+            <p>
+                O arquipélago da Madeira é constituído por <strong>quatro grupos de ilhas e ilhéus</strong>.
+                Apenas as ilhas da Madeira e do Porto Santo são habitadas permanentemente.
+            </p>
+
+            <div class="archipelago-grid">
+                <div class="island-card">
+                    <span class="island-icon">🏔️</span>
+                    <h3>Ilha da Madeira</h3>
+                    <p>A maior e mais populosa, onde se situa <strong>a capital, o Funchal</strong>. É conhecida pelas suas montanhas, levadas e floresta Laurissilva.</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🏖️</span>
+                    <h3>Ilha do Porto Santo</h3>
+                    <p>Famosa pela sua extensa <strong>praia de areia dourada de 9 km</strong>. Um verdadeiro paraíso para os amantes de praia!</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🦭</span>
+                    <h3>Ilhas Desertas</h3>
+                    <p>Subarquipélago composto por três ilhéus: Ilhéu Chão, Deserta Grande e Bugio. É uma <strong>reserva natural e o principal refúgio do lobo-marinho</strong>.</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🐦</span>
+                    <h3>Ilhas Selvagens</h3>
+                    <p>Localizadas mais a sul, mais perto das Canárias. Compostas pela Selvagem Grande, Selvagem Pequena e Ilhéu de Fora. <strong>Reserva natural para aves marinhas.</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><span class="emoji">🌿</span> Clima e Vegetação</h2>
+            <p>
+                A ilha principal apresenta uma grande variedade de <strong>microclimas</strong>.
+                A interação entre os ventos alísios e a orografia cria nevoeiros e neblinas,
+                resultando numa vegetação exuberante.
+            </p>
+
+            <div class="info-box">
+                <h3>🌳 Floresta Laurissilva</h3>
+                <p>
+                    A antiga floresta <strong>Laurissilva</strong> é um verdadeiro santuário de biodiversidade,
+                    classificada como <em>Património Mundial pela UNESCO</em>. Esta floresta húmida subtropical
+                    funciona como uma "esponja" que retém a humidade do nevoeiro e alimenta as nascentes de água.
+                </p>
+            </div>
+
+            <img src="imagens/image3.jpeg" alt="Floresta Laurissilva" class="section-image small">
+            <p class="image-caption">A mística Floresta Laurissilva envolta em nevoeiro</p>
+
+            <div class="info-box red">
+                <h3>💧 As Levadas</h3>
+                <p>
+                    Uma extensa rede de <strong>canais de irrigação</strong> que atravessa a ilha,
+                    essenciais para a agricultura. Hoje oferecem <strong>percursos de caminhada únicos</strong>
+                    para os turistas, permitindo explorar paisagens deslumbrantes.
+                </p>
+            </div>
+
+            <img src="imagens/image1.jpeg" alt="Levada na Laurissilva" class="section-image">
+            <p class="image-caption">Percurso pedestre ao longo de uma levada na Laurissilva</p>
+        </section>
+
+        <section class="section">
+            <h2><span class="emoji">📍</span> Atrações Naturais</h2>
+            <p>A Madeira oferece paisagens únicas que atraem visitantes de todo o mundo:</p>
+
+            <div class="archipelago-grid">
+                <div class="island-card">
+                    <span class="island-icon">🏔️</span>
+                    <h3>Cabo Girão</h3>
+                    <p>Uma das <strong>falésias mais altas da Europa</strong>. Vista vertiginosa e deslumbrante sobre o oceano.</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🏊</span>
+                    <h3>Piscinas de Porto Moniz</h3>
+                    <p><strong>Piscinas naturais vulcânicas</strong> formadas pela lava que encontrou o mar. Uma experiência única!</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🏡</span>
+                    <h3>Casas de Santana</h3>
+                    <p>As típicas <strong>casas triangulares</strong> com telhados de palha, símbolo da arquitetura tradicional madeirense.</p>
+                </div>
+
+                <div class="island-card">
+                    <span class="island-icon">🌸</span>
+                    <h3>Funchal</h3>
+                    <p>A capital, com o seu <strong>mercado vibrante</strong>, jardins magníficos e história ligada aos descobrimentos.</p>
+                </div>
+            </div>
+        </section>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        // Animate sections on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = `${index * 0.2}s`;
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Animate stats on scroll
+            const stats = document.querySelectorAll('.stat .value');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.textContent);
+                        let current = 0;
+                        const increment = target / 40;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                entry.target.textContent = target;
+                                clearInterval(timer);
+                            } else {
+                                entry.target.textContent = Math.floor(current);
+                            }
+                        }, 30);
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            stats.forEach(stat => statsObserver.observe(stat));
+        });
+    </script>
+</body>
+</html>

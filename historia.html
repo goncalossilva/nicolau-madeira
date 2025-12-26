@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História e Cultura - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #FFD700, #C8102E, #FFD700);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 450px;
+            margin: 0 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -32px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -32px;
+        }
+
+        .timeline-content:hover {
+            border-color: #FFD700;
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+        }
+
+        .timeline-year {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .timeline-content p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+        }
+
+        /* Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .section:hover {
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section p {
+            line-height: 1.9;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Economy cards */
+        .economy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .economy-card {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.02));
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .economy-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            border-color: #FFD700;
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .economy-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .economy-card h3 {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Culture highlight */
+        .culture-highlight {
+            background: linear-gradient(145deg, rgba(200, 16, 46, 0.2), rgba(200, 16, 46, 0.05));
+            border-left: 4px solid #C8102E;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .culture-highlight h3 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+
+        .culture-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .culture-list li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .culture-list li:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(10px);
+        }
+
+        .culture-list li .emoji {
+            font-size: 1.5rem;
+        }
+
+        /* Discovery banner */
+        .discovery-banner {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(200, 16, 46, 0.2));
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discovery-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .discovery-banner h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .discovery-banner .navigators {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .discovery-banner .navigators strong {
+            color: #FFD700;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+
+            .timeline::before { left: 20px; }
+            .timeline-item, .timeline-item:nth-child(even) {
+                padding-left: 50px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+            .timeline-item:nth-child(odd) .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -40px;
+                right: auto;
+            }
+            .timeline-content { margin: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html" class="active">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">📜</span>
+        <h1>História e Cultura</h1>
+        <p>Uma viagem no tempo desde 1419 até aos dias de hoje</p>
+    </header>
+
+    <main class="content">
+        <div class="discovery-banner">
+            <h2>A Descoberta da Madeira</h2>
+            <p class="navigators">
+                Descoberta oficialmente em <strong>1419</strong> pelos navegadores portugueses<br>
+                <strong>João Gonçalves Zarco</strong> e <strong>Bartolomeu Perestrelo</strong>
+            </p>
+        </div>
+
+        <section class="section">
+            <h2>📖 Origem do Nome</h2>
+            <p>
+                A ilha foi nomeada <strong>"Madeira"</strong> devido à <em>densa floresta</em> que a cobria
+                quando os navegadores portugueses a descobriram. A abundância de árvores impressionou tanto
+                os descobridores que decidiram dar-lhe este nome tão adequado.
+            </p>
+            <p>
+                Foi a <strong>primeira experiência de povoamento insular de Portugal</strong> e desempenhou
+                um papel crucial nas rotas transatlânticas, servindo como ponto estratégico para as viagens
+                de exploração.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>📅 Linha do Tempo</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1419</div>
+                        <h3>Descoberta Oficial</h3>
+                        <p>João Gonçalves Zarco e Bartolomeu Perestrelo chegam à ilha durante as expedições do Infante D. Henrique.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Séc. XV</div>
+                        <h3>Produção de Trigo</h3>
+                        <p>A ilha destaca-se inicialmente pela produção de trigo, tornando-se importante para o abastecimento do reino.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Séc. XVI</div>
+                        <h3>Era do Açúcar</h3>
+                        <p>A cana-de-açúcar torna-se o principal produto, fazendo da Madeira o maior produtor mundial de açúcar.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Séc. XVII</div>
+                        <h3>Vinho Madeira</h3>
+                        <p>O famoso Vinho Madeira ganha fama mundial, tornando-se um produto de exportação muito apreciado.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Hoje</div>
+                        <h3>Destino Turístico</h3>
+                        <p>O turismo é o principal motor económico, atraindo visitantes com o clima ameno e a combinação de natureza e modernidade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>💰 Economia Histórica</h2>
+            <p>
+                Ao longo dos séculos, a economia da Madeira passou por várias fases importantes,
+                cada uma deixando a sua marca na cultura e paisagem da ilha.
+            </p>
+
+            <div class="economy-grid">
+                <div class="economy-card">
+                    <span class="icon">🌾</span>
+                    <h3>Trigo</h3>
+                    <p>Primeira grande cultura agrícola da ilha</p>
+                </div>
+
+                <div class="economy-card">
+                    <span class="icon">🍬</span>
+                    <h3>Cana-de-Açúcar</h3>
+                    <p>Fez da Madeira o maior produtor mundial</p>
+                </div>
+
+                <div class="economy-card">
+                    <span class="icon">🍷</span>
+                    <h3>Vinho Madeira</h3>
+                    <p>Famoso mundialmente pela sua qualidade única</p>
+                </div>
+
+                <div class="economy-card">
+                    <span class="icon">✈️</span>
+                    <h3>Turismo</h3>
+                    <p>Atual motor económico da região</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎭 Cultura Madeirense</h2>
+            <p>
+                A cultura local é rica e diversificada, resultado de séculos de história e tradições
+                que se mantêm vivas até hoje.
+            </p>
+
+            <div class="culture-highlight">
+                <h3>Expressões Culturais</h3>
+                <ul class="culture-list">
+                    <li>
+                        <span class="emoji">🧵</span>
+                        <span><strong>Bordado da Madeira</strong> - arte reconhecida mundialmente</span>
+                    </li>
+                    <li>
+                        <span class="emoji">💃</span>
+                        <span><strong>Bailinho</strong> - dança tradicional do folclore</span>
+                    </li>
+                    <li>
+                        <span class="emoji">🎉</span>
+                        <span><strong>Carnaval</strong> - festa popular muito animada</span>
+                    </li>
+                    <li>
+                        <span class="emoji">🌸</span>
+                        <span><strong>Festa da Flor</strong> - celebração da primavera</span>
+                    </li>
+                    <li>
+                        <span class="emoji">🎸</span>
+                        <span><strong>Braguinha</strong> - instrumento musical típico</span>
+                    </li>
+                    <li>
+                        <span class="emoji">🎵</span>
+                        <span><strong>Rajão</strong> - outro instrumento tradicional</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate timeline items on scroll
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = index % 2 === 0 ? 'translateX(-50px)' : 'translateX(50px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+
+            // Animate economy cards
+            const cards = document.querySelectorAll('.economy-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>

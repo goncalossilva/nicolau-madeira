@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastronomia - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: wobble 2s ease-in-out infinite;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .food-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .food-card:hover::before {
+            opacity: 1;
+        }
+
+        .food-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #FFD700;
+            box-shadow: 0 25px 50px rgba(255, 215, 0, 0.25);
+        }
+
+        .food-emoji {
+            font-size: 5rem;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(200, 16, 46, 0.1));
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .food-card:hover .food-emoji {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .food-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .food-info h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .food-info p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+        }
+
+        .food-tag {
+            display: inline-block;
+            background: rgba(200, 16, 46, 0.3);
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* Drinks Section */
+        .drinks-section {
+            background: linear-gradient(145deg, rgba(200, 16, 46, 0.15), rgba(200, 16, 46, 0.05));
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid rgba(200, 16, 46, 0.3);
+        }
+
+        .drinks-section h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .drinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .drink-card {
+            background: rgba(0, 51, 153, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .drink-card:hover {
+            background: rgba(0, 51, 153, 0.6);
+            border-color: #FFD700;
+            transform: scale(1.05);
+        }
+
+        .drink-card .emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .drink-card h3 {
+            color: #FFD700;
+            margin-bottom: 0.8rem;
+        }
+
+        .drink-card p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+        }
+
+        /* Products Section */
+        .products-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .products-section h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .products-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .product-item {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), transparent);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .product-item:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .product-item .emoji {
+            font-size: 1.8rem;
+        }
+
+        /* Fun fact */
+        .fun-fact {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05));
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 3px dashed rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fun-fact::before {
+            content: '🎉';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .fun-fact h3 {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .fun-fact p {
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        /* Section images */
+        .section-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            margin: 1.5rem auto;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .section-image:hover {
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .section-image.large {
+            max-width: 800px;
+        }
+
+        .image-caption {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+            .food-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html" class="active">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">🍽️</span>
+        <h1>Gastronomia da Madeira</h1>
+        <p>Sabores únicos que combinam o mar e a terra</p>
+    </header>
+
+    <main class="content">
+        <p class="intro">
+            A gastronomia da Madeira é <strong>rica e variada</strong>, combinando sabores do mar e da terra,
+            com influências da sua história e clima ameno. Descobre os pratos típicos que fazem desta
+            ilha um destino gastronómico imperdível!
+        </p>
+
+        <img src="imagens/image13.png" alt="Mapa gastronómico da Madeira" class="section-image large">
+        <p class="image-caption">Mapa gastronómico: os melhores pratos por localidade</p>
+
+        <div class="food-grid">
+            <div class="food-card">
+                <span class="food-emoji">🍢</span>
+                <div class="food-info">
+                    <h3>Espetada em Pau de Louro</h3>
+                    <p>
+                        O prato mais emblemático da Madeira! Cubos de carne de vaca temperada com alho,
+                        sal e louro, grelhados num espeto de pau de louro que lhe confere um sabor único
+                        e aromático.
+                    </p>
+                    <span class="food-tag">Prato Principal</span>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <span class="food-emoji">🫓</span>
+                <div class="food-info">
+                    <h3>Bolo do Caco</h3>
+                    <p>
+                        Um pão achatado tradicional, cozido em pedra de basalto ("caco").
+                        É servido quente com manteiga de alho derretida - uma combinação irresistível
+                        que acompanha muitos pratos madeirenses.
+                    </p>
+                    <span class="food-tag">Acompanhamento</span>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <span class="food-emoji">🐟</span>
+                <div class="food-info">
+                    <h3>Peixe-Espada Preto</h3>
+                    <p>
+                        Um peixe de águas profundas típico da Madeira, geralmente servido frito
+                        com banana da ilha. A combinação doce-salgado é surpreendente e deliciosa!
+                    </p>
+                    <span class="food-tag">Prato de Peixe</span>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <span class="food-emoji">🥘</span>
+                <div class="food-info">
+                    <h3>Lapas Grelhadas</h3>
+                    <p>
+                        Marisco típico das costas rochosas da Madeira, grelhado com manteiga
+                        de alho e limão. Uma iguaria apreciada como entrada ou petisco.
+                    </p>
+                    <span class="food-tag">Marisco</span>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <span class="food-emoji">🥔</span>
+                <div class="food-info">
+                    <h3>Milho Frito</h3>
+                    <p>
+                        Cubos de farinha de milho fritos até ficarem crocantes por fora e macios
+                        por dentro. Um acompanhamento tradicional que combina na perfeição com
+                        a espetada.
+                    </p>
+                    <span class="food-tag">Acompanhamento</span>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <span class="food-emoji">🍰</span>
+                <div class="food-info">
+                    <h3>Bolo de Mel</h3>
+                    <p>
+                        Doce tradicional natalício feito com mel de cana-de-açúcar, especiarias,
+                        nozes e frutos secos. É tão especial que tradicionalmente só se corta
+                        no dia de Reis!
+                    </p>
+                    <span class="food-tag">Sobremesa</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="drinks-section">
+            <h2>🍹 Bebidas Típicas</h2>
+
+            <div class="drinks-grid">
+                <div class="drink-card">
+                    <span class="emoji">🍹</span>
+                    <h3>Poncha</h3>
+                    <p>
+                        A bebida mais famosa da Madeira! Feita com aguardente de cana-de-açúcar,
+                        sumo de limão (ou laranja/maracujá) e mel. Refrescante mas traiçoeira!
+                    </p>
+                </div>
+
+                <div class="drink-card">
+                    <span class="emoji">🍷</span>
+                    <h3>Vinho Madeira</h3>
+                    <p>
+                        Um vinho fortificado mundialmente famoso, com séculos de tradição.
+                        Pode ser seco ou doce, e é excelente como aperitivo ou digestivo.
+                    </p>
+                </div>
+
+                <div class="drink-card">
+                    <span class="emoji">🍺</span>
+                    <h3>Coral</h3>
+                    <p>
+                        A cerveja local da Madeira, leve e refrescante - perfeita para acompanhar
+                        os petiscos e pratos tradicionais da ilha.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="products-section">
+            <h2>🌿 Produtos Regionais</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">
+                O solo vulcânico fértil e o clima ameno permitem cultivar produtos únicos:
+            </p>
+
+            <img src="imagens/image4.jpeg" alt="Plantação de bananeiras na Madeira" class="section-image">
+            <p class="image-caption">Plantação de bananeiras - o principal produto agrícola de exportação</p>
+
+            <div class="products-list">
+                <div class="product-item">
+                    <span class="emoji">🍌</span>
+                    <span>Banana da Madeira</span>
+                </div>
+                <div class="product-item">
+                    <span class="emoji">🍇</span>
+                    <span>Uvas (para vinho)</span>
+                </div>
+                <div class="product-item">
+                    <span class="emoji">🥭</span>
+                    <span>Anona</span>
+                </div>
+                <div class="product-item">
+                    <span class="emoji">🫐</span>
+                    <span>Maracujá</span>
+                </div>
+                <div class="product-item">
+                    <span class="emoji">🍯</span>
+                    <span>Mel de Cana</span>
+                </div>
+                <div class="product-item">
+                    <span class="emoji">🌴</span>
+                    <span>Cana-de-Açúcar</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="fun-fact">
+            <h3>Sabias que...</h3>
+            <p>
+                A <strong>Banana da Madeira</strong> é o principal produto agrícola de exportação da ilha!
+                É mais pequena e mais doce que as bananas tropicais, devido ao clima único da Madeira.
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate food cards on scroll
+            const cards = document.querySelectorAll('.food-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) rotate(0deg)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) rotate(-3deg)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Animate drink cards
+            const drinkCards = document.querySelectorAll('.drink-card');
+            drinkCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.3}s`;
+            });
+
+            // Animate products
+            const products = document.querySelectorAll('.product-item');
+            const productsObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            products.forEach(product => {
+                product.style.opacity = '0';
+                product.style.transform = 'translateX(-30px)';
+                product.style.transition = 'all 0.4s ease';
+                productsObserver.observe(product);
+            });
+        });
+    </script>
+</body>
+</html>

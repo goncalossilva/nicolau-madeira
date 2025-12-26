@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebridades - Ilha da Madeira</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003399 0%, #001a4d 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0, 51, 153, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #FFD700;
+            color: #003399;
+            transform: translateY(-3px);
+        }
+
+        .page-header {
+            padding: 120px 2rem 60px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #003399 0%, #001a4d 100%);
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .page-header .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+            50% { transform: scale(1.2) rotate(10deg); filter: brightness(1.3); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Celebrity Cards */
+        .celebrity-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s ease;
+            display: grid;
+            grid-template-columns: auto 1fr;
+        }
+
+        .celebrity-card:hover {
+            border-color: #FFD700;
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(255, 215, 0, 0.2);
+        }
+
+        .celebrity-visual {
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+        }
+
+        .celebrity-visual.sport {
+            background: linear-gradient(135deg, rgba(0, 150, 50, 0.3), rgba(0, 100, 30, 0.4));
+        }
+
+        .celebrity-visual.history {
+            background: linear-gradient(135deg, rgba(139, 90, 43, 0.3), rgba(100, 60, 20, 0.4));
+        }
+
+        .celebrity-visual.art {
+            background: linear-gradient(135deg, rgba(150, 100, 200, 0.3), rgba(100, 50, 150, 0.4));
+        }
+
+        .celebrity-visual.politics {
+            background: linear-gradient(135deg, rgba(0, 100, 150, 0.3), rgba(0, 70, 100, 0.4));
+        }
+
+        .celebrity-visual.poetry {
+            background: linear-gradient(135deg, rgba(200, 50, 100, 0.3), rgba(150, 30, 70, 0.4));
+        }
+
+        .celebrity-visual.music {
+            background: linear-gradient(135deg, rgba(255, 100, 50, 0.3), rgba(200, 70, 30, 0.4));
+        }
+
+        .celebrity-emoji {
+            font-size: 5rem;
+            transition: transform 0.5s ease;
+        }
+
+        .celebrity-card:hover .celebrity-emoji {
+            transform: scale(1.2);
+        }
+
+        .celebrity-image {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 215, 0, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        .celebrity-card:hover .celebrity-image {
+            transform: scale(1.1);
+            border-color: #FFD700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .celebrity-info {
+            padding: 2rem;
+        }
+
+        .celebrity-info h2 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .celebrity-info .subtitle {
+            color: rgba(255, 215, 0, 0.7);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .celebrity-info p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .achievement-tag {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-tag:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Quote box for poet */
+        .quote-box {
+            background: linear-gradient(145deg, rgba(200, 50, 100, 0.15), rgba(200, 50, 100, 0.05));
+            border-left: 4px solid #C8102E;
+            padding: 1.5rem 2rem;
+            margin-top: 1rem;
+            border-radius: 0 15px 15px 0;
+            font-style: italic;
+        }
+
+        .quote-box p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        .quote-box .author {
+            color: #FFD700;
+            font-style: normal;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Summary section */
+        .summary-section {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), transparent);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+
+        .summary-section h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-section p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .areas-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .area-badge {
+            background: rgba(0, 51, 153, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .area-badge:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .area-badge .emoji {
+            font-size: 1.5rem;
+        }
+
+        footer {
+            background: #001133;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #FFD700;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #FFD700;
+            color: #003399;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+            .celebrity-card { grid-template-columns: 1fr; }
+            .celebrity-visual { min-width: auto; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="motivacao.html">Motivação</a></li>
+            <li><a href="geografia.html">Geografia</a></li>
+            <li><a href="historia.html">História</a></li>
+            <li><a href="gastronomia.html">Gastronomia</a></li>
+            <li><a href="fauna.html">Fauna</a></li>
+            <li><a href="tradicoes.html">Tradições</a></li>
+            <li><a href="celebridades.html" class="active">Celebridades</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <span class="icon">⭐</span>
+        <h1>Celebridades da Madeira</h1>
+        <p>Figuras ilustres que levaram o nome da ilha ao mundo</p>
+    </header>
+
+    <main class="content">
+        <p class="intro">
+            A Madeira viu nascer figuras que levaram o nome da ilha aos quatro cantos do mundo,
+            em áreas que vão do <strong>desporto à descoberta histórica</strong> e às <strong>artes</strong>.
+        </p>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual sport">
+                <img src="imagens/image16.jpeg" alt="Cristiano Ronaldo" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>Cristiano Ronaldo</h2>
+                <p class="subtitle">O "Filho do Funchal"</p>
+                <p>
+                    Um dos maiores futebolistas da história do futebol mundial! Nascido no Funchal em 1985,
+                    Cristiano Ronaldo é um verdadeiro fenómeno do desporto que começou a sua carreira
+                    no Andorinha e Nacional da Madeira antes de conquistar o mundo.
+                </p>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">5x Bola de Ouro</span>
+                    <span class="achievement-tag">Recordista de Golos</span>
+                    <span class="achievement-tag">Euro 2016</span>
+                    <span class="achievement-tag">Lendário</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual history">
+                <img src="imagens/image17.jpeg" alt="João Gonçalves Zarco" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>João Gonçalves Zarco</h2>
+                <p class="subtitle">O Descobridor</p>
+                <p>
+                    Um dos navegadores portugueses que descobriu a Madeira em 1419, durante as expedições
+                    do Infante D. Henrique. Foi o primeiro <strong>capitão-donatário</strong> da ilha,
+                    responsável pelo início do povoamento e desenvolvimento da Madeira.
+                    A sua estátua ergue-se orgulhosamente no Funchal, obra do escultor Francisco Franco.
+                </p>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">Descobridor</span>
+                    <span class="achievement-tag">Capitão-donatário</span>
+                    <span class="achievement-tag">Séc. XV</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual art">
+                <img src="imagens/image18.jpeg" alt="Francisco Franco" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>Francisco Franco</h2>
+                <p class="subtitle">O Grande Escultor</p>
+                <p>
+                    Escultor de renome internacional, nascido no Funchal. As suas obras marcam a paisagem
+                    de Portugal, sendo a mais icónica a <strong>estátua de Gonçalves Zarco</strong> no Funchal.
+                    O seu trabalho é reconhecido pela expressividade e domínio técnico.
+                </p>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">Escultura</span>
+                    <span class="achievement-tag">Arte Portuguesa</span>
+                    <span class="achievement-tag">Funchal</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual politics">
+                <img src="imagens/image19.jpeg" alt="Alberto João Jardim" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>Alberto João Jardim</h2>
+                <p class="subtitle">O Político</p>
+                <p>
+                    Figura central na política madeirense, governou a <strong>Região Autónoma durante 37 anos</strong>.
+                    Foi determinante na modernização da ilha, deixando uma marca profunda no desenvolvimento
+                    das infraestruturas, economia e autonomia regional.
+                </p>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">37 Anos</span>
+                    <span class="achievement-tag">Modernização</span>
+                    <span class="achievement-tag">Autonomia</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual poetry">
+                <img src="imagens/image20.jpeg" alt="Herberto Helder" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>Herberto Helder</h2>
+                <p class="subtitle">O Poeta</p>
+                <p>
+                    Considerado um dos <strong>maiores poetas portugueses do século XX</strong>, nasceu no Funchal
+                    e marcou profundamente a literatura contemporânea portuguesa. A sua poesia é conhecida
+                    pela intensidade, inovação e profundidade.
+                </p>
+
+                <div class="quote-box">
+                    <p>
+                        "Os poemas são os meus filhos. Neles me revejo e me perco. Neles me multiplico e me divido.
+                        Neles me crio e me destruo. Neles me amo e me odeio. Neles me encontro e me desencontro.
+                        Neles me dou e me tiro. Neles me faço e me desfaço."
+                    </p>
+                    <p class="author">— Herberto Helder, "A Máquina de Emaranhar Paisagens"</p>
+                </div>
+
+                <div class="achievement-tags">
+                    <span class="achievement-tag">Poeta</span>
+                    <span class="achievement-tag">Séc. XX</span>
+                    <span class="achievement-tag">Literatura</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebrity-card">
+            <div class="celebrity-visual music">
+                <img src="imagens/image21.jpeg" alt="Max (Maximiano de Sousa)" class="celebrity-image">
+            </div>
+            <div class="celebrity-info">
+                <h2>Max (Maximiano de Sousa)</h2>
+                <p class="subtitle">O Cantor do Folclore</p>
+                <p>
+                    Cantor que imortalizou o <strong>folclore local</strong> madeirense. As suas interpretações
+                    de músicas tradicionais ajudaram a preservar e divulgar a riqueza musical da ilha,
+                    tornando-se uma referência cultural incontornável.
+                </p>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">Música</span>
+                    <span class="achievement-tag">Folclore</span>
+                    <span class="achievement-tag">Tradição</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="summary-section">
+            <h2>Um Legado Diversificado</h2>
+            <p>
+                Estas figuras demonstram a riqueza cultural e humana da Madeira,
+                deixando marcas em diversas áreas do conhecimento e da sociedade.
+            </p>
+
+            <div class="areas-grid">
+                <div class="area-badge">
+                    <span class="emoji">⚽</span>
+                    <span>Desporto</span>
+                </div>
+                <div class="area-badge">
+                    <span class="emoji">🚢</span>
+                    <span>Descobrimentos</span>
+                </div>
+                <div class="area-badge">
+                    <span class="emoji">🎨</span>
+                    <span>Artes</span>
+                </div>
+                <div class="area-badge">
+                    <span class="emoji">🏛️</span>
+                    <span>Política</span>
+                </div>
+                <div class="area-badge">
+                    <span class="emoji">📚</span>
+                    <span>Literatura</span>
+                </div>
+                <div class="area-badge">
+                    <span class="emoji">🎵</span>
+                    <span>Música</span>
+                </div>
+            </div>
+        </section>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>Trabalho realizado por Nicolau Coelho Silva | Estudo sobre a Ilha da Madeira</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate celebrity cards on scroll
+            const cards = document.querySelectorAll('.celebrity-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = index % 2 === 0 ? 'translateX(-50px)' : 'translateX(50px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Animate tags on hover
+            const tags = document.querySelectorAll('.achievement-tag');
+            tags.forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1) rotate(3deg)';
+                });
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
