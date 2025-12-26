@@ -2,7 +2,7 @@
 
 Site sobre a Ilha da Madeira, cobrindo diversos aspectos como geografia, história, cultura, economia e turismo.
 
-Estudo realizado por Nicolau Costa Silva, convertido em site com a ajuda de Inteligência Artificial (Opus 4.5).
+Estudo realizado por Nicolau Coelho Silva em Dezembro de 2025, convertido em site com a ajuda de Inteligência Artificial (Opus 4.5).
 
 As instruções originais foram:
 
@@ -13,7 +13,7 @@ Quero que o site seja contido em apenas ficheiros HTML, ou seja, com o CSS e o J
 
 Sobre as várias páginas, eu fiz um estudo sobre a ilha em várias áreas como geografia, gastronomia típica, história e cultura, entre outros, que quero apresentar nas várias páginas deste site. Anexo o meu estudo, para estruturares o conteudo.
 
-Incluí uma primeira página sobre a minha motivação para escolher a Madeira para este trabalho. Escolhi a Madeira porque gostava de ver como é e ir lá explorar. Como foi proposto este trabalho, eu decidi estudar a ilha da Madeira que desta forma podia começar a aprender coisas sobre ela. Também escolhi fazer um site, para começar a explorar fazer coisas com a ajuda de inteligência artificial.
+Inclui uma primeira página sobre a minha motivação para escolher a Madeira para este trabalho. Escolhi a Madeira porque gostava de ver como é e ir lá explorar. Como foi proposto este trabalho, eu decidi estudar a ilha da Madeira que desta forma podia começar a aprender coisas sobre ela. Também escolhi fazer um site, para começar a explorar fazer coisas com a ajuda de inteligência artificial.
 ```
 
 Com 4 pequenas correções e melhorias:
