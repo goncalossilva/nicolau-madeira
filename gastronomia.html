@@ -181,6 +181,22 @@
             margin-top: 1rem;
         }
 
+        /* Food Section */
+        .food-section {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .food-section h2 {
+            color: #FFD700;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
         /* Drinks Section */
         .drinks-section {
             background: linear-gradient(145deg, rgba(200, 16, 46, 0.15), rgba(200, 16, 46, 0.05));
@@ -415,7 +431,10 @@
         <img src="imagens/image13.png" alt="Mapa gastronómico da Madeira" class="section-image large">
         <p class="image-caption">Mapa gastronómico: os melhores pratos por localidade</p>
 
-        <div class="food-grid">
+        <section class="food-section">
+            <h2>🍽️ Comidas Típicas</h2>
+
+            <div class="food-grid">
             <div class="food-card">
                 <span class="food-emoji">🍢</span>
                 <div class="food-info">
@@ -453,45 +472,8 @@
                     <span class="food-tag">Prato de Peixe</span>
                 </div>
             </div>
-
-            <div class="food-card">
-                <span class="food-emoji">🥘</span>
-                <div class="food-info">
-                    <h3>Lapas Grelhadas</h3>
-                    <p>
-                        Marisco típico das costas rochosas da Madeira, grelhado com manteiga
-                        de alho e limão. Uma iguaria apreciada como entrada ou petisco.
-                    </p>
-                    <span class="food-tag">Marisco</span>
-                </div>
             </div>
-
-            <div class="food-card">
-                <span class="food-emoji">🥔</span>
-                <div class="food-info">
-                    <h3>Milho Frito</h3>
-                    <p>
-                        Cubos de farinha de milho fritos até ficarem crocantes por fora e macios
-                        por dentro. Um acompanhamento tradicional que combina na perfeição com
-                        a espetada.
-                    </p>
-                    <span class="food-tag">Acompanhamento</span>
-                </div>
-            </div>
-
-            <div class="food-card">
-                <span class="food-emoji">🍰</span>
-                <div class="food-info">
-                    <h3>Bolo de Mel</h3>
-                    <p>
-                        Doce tradicional natalício feito com mel de cana-de-açúcar, especiarias,
-                        nozes e frutos secos. É tão especial que tradicionalmente só se corta
-                        no dia de Reis!
-                    </p>
-                    <span class="food-tag">Sobremesa</span>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <section class="drinks-section">
             <h2>🍹 Bebidas Típicas</h2>

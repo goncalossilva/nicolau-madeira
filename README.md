@@ -34,3 +34,11 @@ menos na página da Fauna mas talvez nas outras.
 ```
 O documento que anexei originalmente (e anexo novamente) é um documento Word que incluí algumas imagens relevantes que gostava que fossem usadas nas respectivas páginas.
 ```
+
+```
+A imagem do pombo-trocaz aparece com a cabeça cortada. Coloca a imagem mais para baixo no quadrado. A imagem do Peixe-Espada Preto também aparece cortada, provavelmente por ser um rectangulo originalmente. O fundo da imagem é branco. Considera editar a imagem para ficar em quadrado (com fundo branco).
+```
+
+```
+Vamos simplificar. Remove a secção "Cultura Madeirense" na página da História, já que é quase toda repetida noutros sítios. Na gastronomia da madeira, vamos focar-nos em 3 comidas em vez de 6. Escolhe as 3 mais típicas ou únicas. Coloca uma caixa à volta das comidas a dizer "Comidas Típicas", ao estilo das bebidas típicas.
+```
